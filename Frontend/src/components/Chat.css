@@ -1,0 +1,51 @@
+.chats{
+    max-width: 700px;
+    overflow-y: auto;
+    padding: 8rem;
+}
+
+/* Simple dark scrollbar for .chats */
+.chats::-webkit-scrollbar {
+    width: 8px;
+}
+.chats::-webkit-scrollbar-thumb {
+    background: #171717;
+    border-radius: 8px;
+}
+/* .chats::-webkit-scrollbar-track {
+    background: #171717;
+} */
+
+
+
+.userDiv{
+    display: flex;
+    justify-content: flex-end;
+    font-size: 0.9rem;
+
+}
+
+.gptDiv{
+    text-align: start;
+    font-size: 0.9rem;
+
+
+
+}
+
+.userMessage{
+    background-color: #323232;
+    padding: 10px 20px;
+    border-radius: 14px;
+    margin-left: 15rem;
+    max-width: 500px;
+
+}
+
+.hljs{
+    border-radius: 14px;
+}
+
+.pre{
+    white-space: pre-wrap;
+}
