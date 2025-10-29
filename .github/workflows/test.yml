@@ -1,24 +1,28 @@
-name: Node.js CI
+name: CI/CD Pipeline
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
 
 jobs:
-  build-and-test:
+  build-and-deploy:
     runs-on: ubuntu-latest
     env:
-      OpenAI_API_Key: ${{ secrets.OPENAI_API_KEY }} # 👈 secret available for all steps
+      OpenAI_API_Key: ${{ secrets.OPENAI_API_KEY }}
+
+    strategy:
+      matrix:
+        node-version: [20.x]
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: "npm"
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
           cache-dependency-path: Backend/package-lock.json
 
       - name: Install dependencies
@@ -28,3 +32,9 @@ jobs:
       - name: Run tests
         working-directory: Backend
         run: npm test
+
+      - name: Deploy to Render
+        if: success()   # ✅ Only if tests pass
+        run: curl "$RENDER_DEPLOY_HOOK"
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}

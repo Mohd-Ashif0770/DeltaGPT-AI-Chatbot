@@ -2,13 +2,14 @@ import "./Sidebar.css";
 import { MyContext } from '../MyContext';
 import { useContext, useEffect} from 'react';
 import {v1 as uuidv1} from 'uuid';
+import serverUrl from "../environment";
 
 function Sidebar() {
   const {allThreads, setAllThreads, currThreadId, setNewChat, setPrompt, setReply, setCurrThreadId, setPrevChats} = useContext(MyContext);
 
   const getAllThreads = async()=>{
     try{
-      const response = await fetch("http://localhost:8080/api/thread");
+      const response = await fetch(`${serverUrl}/api/thread`);
       const data = await response.json();
       const filteredData = data.map(thread=>({threadId:thread.threadId, title: thread.title}));
       // console.log(filteredData);
@@ -35,7 +36,7 @@ function Sidebar() {
     setCurrThreadId(newThreadId);
 
     try{
-      const response = await fetch(`http://localhost:8080/api/thread/${newThreadId}`);
+      const response = await fetch(`${serverUrl}/api/thread/${newThreadId}`);
       const data = await response.json();
       console.log(data);
       setPrevChats(data);
@@ -50,7 +51,7 @@ function Sidebar() {
 
   const deleteThread = async(ThreadId)=>{
     try{
-      const response = await fetch(`http://localhost:8080/api/thread/${ThreadId}`, {method:"DELETE"});
+      const response = await fetch(`${serverUrl}/api/thread/${ThreadId}`, {method:"DELETE"});
       const data = await response.json();
       console.log(data);
       setCurrThreadId(uuidv1());

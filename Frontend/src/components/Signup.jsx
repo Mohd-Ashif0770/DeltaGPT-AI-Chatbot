@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import serverUrl from "../environment";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -11,7 +12,7 @@ const Signup = () => {
     setError("");
     setSuccess("");
     try {
-      const res = await fetch("http://localhost:5000/signup", {
+      const res = await fetch(`${serverUrl}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

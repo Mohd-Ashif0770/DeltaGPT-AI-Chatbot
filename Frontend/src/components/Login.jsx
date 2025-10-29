@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import serverUrl from "../environment";
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState("");
@@ -9,7 +10,7 @@ const Login = ({ onLogin }) => {
     e.preventDefault();
     setError("");
     try {
-      const res = await fetch("http://localhost:5000/login", {
+      const res = await fetch(`${serverUrl}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -22,7 +23,7 @@ const Login = ({ onLogin }) => {
         setError(data.message || "Login failed");
       }
     } catch (err) {
-      setError("Network error");
+      setError("Network error", err.message);
     }
   };
 
