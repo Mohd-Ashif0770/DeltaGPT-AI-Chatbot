@@ -1,57 +1,70 @@
 import "./Sidebar.css";
-import { MyContext } from '../MyContext';
-import { useContext, useEffect} from 'react';
-import {v1 as uuidv1} from 'uuid';
+import { MyContext } from "../MyContext";
+import { useContext, useEffect } from "react";
+import { v1 as uuidv1 } from "uuid";
 import serverUrl from "../environment";
 
 function Sidebar() {
-  const {allThreads, setAllThreads, currThreadId, setNewChat, setPrompt, setReply, setCurrThreadId, setPrevChats} = useContext(MyContext);
+  const {
+    allThreads,
+    setAllThreads,
+    currThreadId,
+    setNewChat,
+    setPrompt,
+    setReply,
+    setCurrThreadId,
+    setPrevChats,
+  } = useContext(MyContext);
 
-  const getAllThreads = async()=>{
-    try{
+  const getAllThreads = async () => {
+    try {
+      // console.log(serverUrl);
+
       const response = await fetch(`${serverUrl}/api/thread`);
       const data = await response.json();
-      const filteredData = data.map(thread=>({threadId:thread.threadId, title: thread.title}));
+      const filteredData = data.map((thread) => ({
+        threadId: thread.threadId,
+        title: thread.title,
+      }));
       // console.log(filteredData);
       setAllThreads(filteredData);
-    }catch(err){
+    } catch (err) {
       console.log(err);
     }
-  }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     getAllThreads();
-  }, [currThreadId])
+  }, [currThreadId]);
 
-  const createNewChat = ()=>{
+  const createNewChat = () => {
     setNewChat(true);
     setPrompt("");
     setReply(null);
     setCurrThreadId(uuidv1());
     setPrevChats([]);
+  };
 
-  }
-
-  const changeThread = async (newThreadId)=>{
+  const changeThread = async (newThreadId) => {
     setCurrThreadId(newThreadId);
 
-    try{
+    try {
       const response = await fetch(`${serverUrl}/api/thread/${newThreadId}`);
       const data = await response.json();
       console.log(data);
       setPrevChats(data);
       setNewChat(false);
       setReply(null);
-
-    }catch(err){
+    } catch (err) {
       console.log(err);
     }
+  };
 
-  }
-
-  const deleteThread = async(ThreadId)=>{
-    try{
-      const response = await fetch(`${serverUrl}/api/thread/${ThreadId}`, {method:"DELETE"});
+  const deleteThread = async (ThreadId) => {
+    try {
+      const response = await fetch(`${serverUrl}/api/thread/${ThreadId}`, {
+        method: "DELETE",
+      });
       const data = await response.json();
       console.log(data);
       setCurrThreadId(uuidv1());
@@ -59,17 +72,16 @@ function Sidebar() {
       setNewChat(true);
       setReply(null);
       getAllThreads();
-
-    }catch(err){
+    } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   return (
     <section className="sidebar">
       {/* new chat button */}
       <button onClick={createNewChat}>
-        <img src="src/assets/gpt-logo.png" alt="gpt logo" className="logo" />
+        <img src="/gpt-logo.png" alt="GPT logo" className="logo" />
         <span>
           <i className="fa-solid fa-pen-to-square"></i>
         </span>
@@ -77,20 +89,23 @@ function Sidebar() {
 
       {/* thread history */}
       <ul className="thread">
-        {
-          allThreads?.map((thread, idx)=>(
-            <li key={idx} onClick={(e)=> changeThread(thread.threadId)}
-            className={currThreadId===thread.threadId ? "active":"random"}
-
-            > {thread.title}
-            <i className="fa-solid fa-trash" onClick={(e)=>{
-              e.stopPropagation();
-              deleteThread(thread.threadId);
-            }}></i>
-            </li>
-            
-          ))
-        }
+        {allThreads?.map((thread, idx) => (
+          <li
+            key={idx}
+            onClick={(e) => changeThread(thread.threadId)}
+            className={currThreadId === thread.threadId ? "active" : "random"}
+          >
+            {" "}
+            {thread.title}
+            <i
+              className="fa-solid fa-trash"
+              onClick={(e) => {
+                e.stopPropagation();
+                deleteThread(thread.threadId);
+              }}
+            ></i>
+          </li>
+        ))}
       </ul>
 
       {/* extra info */}
