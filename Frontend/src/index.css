@@ -1,0 +1,8 @@
+* {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  /* font-family: 'Poppins', 'Manrope', sans-serif; */
+  /* font-family: 'Satoshi', 'Helvetica Neue', sans-serif; */
+  /* font-family: Roboto, 'Open Sans', 'Helvetica Neue', sans-serif; */
+  font-weight: 400;
+  word-spacing: 2px; /* increases gap between words */
+}

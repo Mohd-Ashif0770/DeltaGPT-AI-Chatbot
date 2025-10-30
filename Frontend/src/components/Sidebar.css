@@ -1,109 +1,144 @@
-.sidebar{
-    background-color: #171717;
-    color: #b4b4b4;
-    height: 100vh;
-    width: 320px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    /* overflow-y: auto; */
+.sidebar {
+  background-color: #171717;
+  color: #b4b4b4;
+  height: 100vh;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease;
+  /* overflow-y: auto; */
 }
 
-.logo{
-    height: 30px;
-    width: 30px;
-    /* background-color: rgb(169, 139, 139); */
-     border-radius: 60%;
-     background-color: transparent;
+.logo {
+  height: 30px;
+  width: 30px;
+  /* background-color: rgb(169, 139, 139); */
+  border-radius: 60%;
+  background-color: transparent;
 }
 
-button{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 8px;
-    background-color: transparent;
-    border: solid 0.5px rgba(255, 255, 255, 0.5);
-    cursor: pointer;
+button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: transparent;
+  border: solid 0.5px rgba(255, 255, 255, 0.5);
+  cursor: pointer;
 }
 
-button:hover{
-    background-color: rgba(255, 255, 255, 0.05);
+button:hover {
+  background-color: rgba(255, 255, 255, 0.05);
 }
-.fa-solid:hover{
-    color: #22c55e !important;
-    content: attr("New Chat");
-}
-
-button span{
-    font-size: 20px;
+.fa-solid:hover {
+  color: #22c55e !important;
+  content: attr("New Chat");
 }
 
+button span {
+  font-size: 20px;
+}
 
-.thread{
-    margin: 10px;
-    padding: 10px;
-    height: 100%;
-    overflow-y: scroll;
+.thread {
+  margin: 10px;
+  padding: 10px;
+  height: 100%;
+  overflow-y: scroll;
 }
 /* Simple dark scrollbar for .chats */
 .thread::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 .thread::-webkit-scrollbar-thumb {
-    background: #111111;
-    border-radius: 8px;
+  background: #111111;
+  border-radius: 8px;
 }
-.thread li{
-    list-style-type: none;
-    cursor: pointer;
-    padding: 2px 5px;
-    margin-bottom: 0.3rem;
-    font-size: 14px;
-    border-radius: 14px;
-    border: solid 10px transparent;
-    position: relative;
-}
-
-.thread li:hover{
-    background-color: rgba(180, 180, 180, 0.15);
+.thread li {
+  list-style-type: none;
+  cursor: pointer;
+  padding: 2px 5px;
+  margin-bottom: 0.3rem;
+  font-size: 14px;
+  border-radius: 14px;
+  border: solid 10px transparent;
+  position: relative;
 }
 
-.random{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;    
-    gap: 10px;
+.thread li:hover {
+  background-color: rgba(180, 180, 180, 0.15);
 }
 
-.sign{
-    margin: 10;
-    padding: 10px;
-    font-size: 14px;
-    text-align: center;
-    border-top: solid 0.25px rgba(255, 255, 255, 0.5);
-    z-index: 100;
+.random {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 }
 
-.fa-trash{
-    position: absolute;
-    right: 0;
-    opacity: 0;
-    cursor: pointer;
+.sign {
+  margin: 10;
+  padding: 10px;
+  font-size: 14px;
+  text-align: center;
+  border-top: solid 0.25px rgba(255, 255, 255, 0.5);
+  z-index: 100;
 }
 
-.thread li:hover .fa-trash{
-    opacity: 1;
-    color: #fff;
+.fa-trash {
+  position: absolute;
+  right: 0;
+  opacity: 0;
+  cursor: pointer;
 }
 
-.fa-trash:hover{
-    color: #f87171 !important;
+.thread li:hover .fa-trash {
+  opacity: 1;
+  color: #fff;
 }
 
-.active{
-    background-color: rgba(180, 180, 180, 0.15);
-    border-right: solid 10px #22c55e;
+.fa-trash:hover {
+  color: #f87171 !important;
+}
+
+.active {
+  background-color: rgba(180, 180, 180, 0.15);
+  border-right: solid 10px #22c55e;
+}
+/* Hide hamburger icon by default */
+.hamburger-menu {
+  display: none;
+  font-size: 1.3rem;
+  padding: 10px;
+  cursor: pointer;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .hamburger-menu {
+    display: block;
+    position: fixed;
+    top: 27px;
+    left:5px;
+    ;
+    z-index: 1001;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 230px;
+    /* background-color: #fff; */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transform: translateX(-100%);
+    z-index: 1000;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
 }

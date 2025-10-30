@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import serverUrl from "../environment";
+import { toast } from "react-toastify";
 
 const Login = ({ onLogin }) => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -52,7 +53,10 @@ const Login = ({ onLogin }) => {
       <div className="col-md-5 p-4 shadow rounded bg-light">
         <h3 className="text-center mb-4 text-primary">Login to Your Account</h3>
 
-        <form onSubmit={handleSubmit} className="d-flex flex-column justify-content-center align-items-center">
+        <form
+          onSubmit={handleSubmit}
+          className="d-flex flex-column justify-content-center align-items-center"
+        >
           <input
             type="email"
             name="email"
@@ -81,8 +85,8 @@ const Login = ({ onLogin }) => {
           </button>
         </form>
 
-        {error && <p className="text-danger mt-3">{error}</p>}
-        {success && <p className="text-success mt-3">{success}</p>}
+        {error && toast.error(error)}
+        {success && toast.success("Login successful!")}
       </div>
     </div>
   );

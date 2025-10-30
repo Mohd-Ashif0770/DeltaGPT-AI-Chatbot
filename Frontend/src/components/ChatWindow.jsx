@@ -4,6 +4,8 @@ import { MyContext } from '../MyContext';
 import { useContext, useState, useEffect } from 'react';
 import { ScaleLoader } from 'react-spinners';
 import serverUrl from '../environment.js';
+import { toast } from "react-toastify";
+
 
 function ChatWindow() {
   const {
@@ -32,7 +34,7 @@ function ChatWindow() {
     // ✅ Check login before sending message
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("⚠️ Please login to chat with DeltaGPT.");
+      toast.warning("Please login to chat with DeltaGPT.");
       return;
     }
 

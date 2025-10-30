@@ -7,6 +7,8 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import { MyContext } from "./MyContext";
 import { v1 as uuidv1 } from "uuid";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [prompt, setPrompt] = useState("");
@@ -53,6 +55,17 @@ function App() {
           </Routes>
         </div>
       </Router>
+
+       {/* Your app code */}
+      <ToastContainer
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover
+        // theme="colored"
+      />
     </MyContext.Provider>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import serverUrl from "../environment";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -85,8 +86,8 @@ const Signup = () => {
           </button>
         </form>
 
-        {error && <p className="text-danger mt-3">{error}</p>}
-        {success && <p className="text-success mt-3">{success}</p>}
+        {error && toast.error(error)}
+        {success && toast.success("Registration successful! Please login.")}
       </div>
     </div>
   );

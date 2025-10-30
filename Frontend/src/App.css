@@ -1,16 +1,18 @@
-*{
-    color: #ececec;
-    font-family: Roboto, 'Open Sans', 'Helvetica Neue', sans-serif;
+* {
+  color: #ececec;
+ 
+ /* font-family: 'Satoshi', 'Helvetica Neue', sans-serif; */
+  /* font-family: Roboto, 'Open Sans', 'Helvetica Neue', sans-serif; */
 }
 
-body{
-    margin: 0;
-    padding: 0;
-    overflow: hidden;   
-    height: 100vh;
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100vh;
 }
 
-.app{
-    /* background-color: #212121; */
-    display: flex;
+.app {
+  background-color: #212121;
+  display: flex;
 }
