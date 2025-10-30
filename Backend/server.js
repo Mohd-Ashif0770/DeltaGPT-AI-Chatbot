@@ -5,6 +5,8 @@ import cors from "cors";
 import mongoose from "mongoose";
 import chatRoutes from "./routes/chat.js"
 const PORT = 8080;
+import authRoute from "./routes/user.routes.js"  
+
 
 const app = express();
 dotenv.config();
@@ -13,6 +15,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api", chatRoutes);
+app.use("/api/auth", authRoute);
 
 app.listen(PORT, () => {
   console.log(`Server is running on PORT ${PORT}`);

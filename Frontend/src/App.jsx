@@ -1,35 +1,59 @@
 import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Sidebar from "./components/Sidebar";
 import ChatWindow from "./components/ChatWindow";
+import Signup from "./components/Signup";
+import Login from "./components/Login";
 import { MyContext } from "./MyContext";
-import {v1 as uuidv1} from 'uuid';
+import { v1 as uuidv1 } from "uuid";
 
 function App() {
-
   const [prompt, setPrompt] = useState("");
-  const [reply, setReply]= useState(null);
+  const [reply, setReply] = useState(null);
   const [currThreadId, setCurrThreadId] = useState(uuidv1());
-  const [prevChats, setPrevChats] = useState([]); // Stores all chats of curr thread
+  const [prevChats, setPrevChats] = useState([]); // Stores all chats of current thread
   const [newChat, setNewChat] = useState(true);
-  const [allThreads, setAllThreads] = useState([]); //stores all threads
+  const [allThreads, setAllThreads] = useState([]); // Stores all threads
 
   const providerValues = {
-    prompt, setPrompt,
-    reply, setReply,
-    currThreadId, setCurrThreadId,
-    newChat, setNewChat,
-    prevChats, setPrevChats,    
-    allThreads, setAllThreads
+    prompt,
+    setPrompt,
+    reply,
+    setReply,
+    currThreadId,
+    setCurrThreadId,
+    newChat,
+    setNewChat,
+    prevChats,
+    setPrevChats,
+    allThreads,
+    setAllThreads,
   };
 
   return (
-    <div className="app">
-      <MyContext.Provider value={providerValues}>
-        <Sidebar></Sidebar>
-        <ChatWindow></ChatWindow>
-      </MyContext.Provider>
-    </div>
+    <MyContext.Provider value={providerValues}>
+      <Router>
+        <div className="app">
+          <Routes>
+            {/* 🔹 Home/Chat Page */}
+            <Route
+              path="/"
+              element={
+                <>
+                  <Sidebar />
+                  <ChatWindow />
+                </>
+              }
+            />
+
+            {/* 🔹 Auth Pages */}
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </div>
+      </Router>
+    </MyContext.Provider>
   );
 }
 
