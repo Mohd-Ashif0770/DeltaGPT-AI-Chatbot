@@ -28,8 +28,7 @@ const LoginUser = async (req, res) => {
     if (!user) return res.status(404).json({ msg: "User not found." });
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
-      return res.status(401).json({ msg: "Invalid credentials." });
+    if (!isMatch) return res.status(401).json({ msg: "Invalid credentials." });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
@@ -38,8 +37,8 @@ const LoginUser = async (req, res) => {
     res
       .cookie("token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+        secure: false,
+        sameSite: "Lax",
       })
       .status(200)
       .json({
