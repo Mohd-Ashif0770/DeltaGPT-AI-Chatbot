@@ -87,7 +87,7 @@ function ChatWindow() {
   return (
     <div className="chatWindow">
       <div className="navbar d-flex justify-content-between align-items-center px-3">
-        <span className="fw-bold">
+        <span className="fw-bold appName">
           DeltaGPT <i className="fa-solid fa-chevron-down"></i>
         </span>
 
@@ -99,7 +99,7 @@ function ChatWindow() {
             </span>
           ) : (
             // 🔸 Not logged in → Show Login / Register buttons
-            <div className="d-flex gap-2">
+            <div className="d-flex gap-2 " id='loginRegisterBtns'>
               <a href="/login" className="btn btn-outline-light btn-sm">
                 Login
               </a>
@@ -145,7 +145,7 @@ function ChatWindow() {
           </div>
         </div>
         <div className="info">
-          <p className="mt-1">
+          <p className="mt-1 smallDescription">
             DeltaGPT can make mistakes. Check important info. See Cookie Preferences.
           </p>
         </div>

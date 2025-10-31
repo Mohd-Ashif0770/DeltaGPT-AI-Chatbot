@@ -120,7 +120,7 @@ button span {
   .hamburger-menu {
     display: block;
     position: fixed;
-    top: 27px;
+    top: 15px;
     left:5px;
     ;
     z-index: 1001;

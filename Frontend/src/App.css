@@ -16,3 +16,10 @@ body {
   background-color: #212121;
   display: flex;
 }
+
+@media (max-width: 768px) {
+  .appName {
+    display: none;
+    
+  }
+}

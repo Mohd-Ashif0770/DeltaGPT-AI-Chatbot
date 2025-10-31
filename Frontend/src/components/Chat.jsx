@@ -34,7 +34,7 @@ function  Chat() {
   
   return (
     <>
-      {newChat && <h2>Start a New Chat</h2>}
+      {newChat && <h2 id="startnewchat">Start a New Chat</h2>}
       <div className="chats">
         {
            prevChats?.slice(0, -1).map((chat,idx)=>{

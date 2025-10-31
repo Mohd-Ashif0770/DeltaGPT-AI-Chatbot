@@ -49,3 +49,9 @@
 .pre{
     white-space: pre-wrap;
 }
+
+@media (max-width: 768px) {
+    #startnewchat{
+        margin-top: 6rem;
+    }
+}

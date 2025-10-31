@@ -117,3 +117,30 @@ input:focus{
     background-color: #454545;
     border-radius: 5px;
 }
+
+@media (max-width: 768px) {
+  .userIconDiv {
+    position: absolute;
+    right: 0px;
+    top: 5px;
+    margin-right: 15px;
+  }
+  .smallDescription{
+    font-size: 0.7rem;
+  }
+  .chatInput{
+    position: fixed;
+    bottom: 0;
+    background-color: #212121;
+    padding: 1rem 0.5rem;
+    width: 100%;
+    max-width: 100%;
+  }
+  .inputBox{
+    max-width: 100%;
+    
+
+  }
+
+
+}
