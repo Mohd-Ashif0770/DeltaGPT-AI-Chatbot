@@ -1,8 +1,16 @@
-* {
-  color: #ececec;
- 
- /* font-family: 'Satoshi', 'Helvetica Neue', sans-serif; */
-  /* font-family: Roboto, 'Open Sans', 'Helvetica Neue', sans-serif; */
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap");
+
+:root {
+  color-scheme: dark;
+  --color-bg: #0b111b;
+  --color-bg-alt: #101727;
+  --color-text: #e2e8f0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
@@ -10,16 +18,22 @@ body {
   padding: 0;
   overflow: hidden;
   height: 100vh;
+  font-family: "Manrope", "Segoe UI", sans-serif;
+  background: radial-gradient(ellipse at top, rgba(134, 255, 218, 0.18), rgba(11, 17, 27, 0.95)),
+    radial-gradient(ellipse at bottom, rgba(79, 228, 251, 0.16), rgba(11, 17, 27, 0.98));
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 .app {
-  background-color: #212121;
   display: flex;
+  min-height: 100vh;
+  background: transparent;
 }
 
 @media (max-width: 768px) {
-  .appName {
+  .appName i {
     display: none;
-    
   }
 }

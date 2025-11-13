@@ -128,7 +128,7 @@ function Sidebar() {
               onClick={() => changeThread(thread.threadId)}
               className={currThreadId === thread.threadId ? "active" : ""}
             >
-              {thread.title}
+              <span>{thread.title}</span>
               <i
                 className="fa-solid fa-trash"
                 onClick={(e) => {

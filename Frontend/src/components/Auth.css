@@ -1,47 +1,180 @@
-.auth-container {
-  max-width: 350px;
-  margin: 40px auto;
-  padding: 2rem;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.auth-container h2 {
-  margin-bottom: 1.5rem;
-}
-.auth-container form {
+.authLayout {
+  min-height: 100vh;
   width: 100%;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(3rem, 8vh, 5rem) 1.5rem;
+  overflow-y: auto;
+  box-sizing: border-box;
+  background: radial-gradient(circle at 20% 20%, rgba(134, 255, 218, 0.18), transparent 55%),
+    radial-gradient(circle at 80% 0%, rgba(88, 100, 255, 0.18), transparent 45%),
+    #0b111b;
+}
+
+.authCard {
+  width: min(440px, 100%);
+  margin: auto;
+  background: rgba(14, 19, 32, 0.92);
+  border: 1px solid rgba(134, 255, 218, 0.18);
+  border-radius: 24px;
+  padding: 2.4rem 2rem;
+  color: #f8fafc;
+  box-shadow: 0 35px 80px rgba(6, 10, 18, 0.55);
+  backdrop-filter: blur(22px);
+}
+
+.authCard__header {
+  display: flex;
   flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
 }
-.auth-container input {
-  margin-bottom: 1rem;
-  padding: 0.7rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
+
+.authBadge {
+  align-self: flex-start;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(134, 255, 218, 0.18);
+  border: 1px solid rgba(134, 255, 218, 0.35);
+  color: #86ffda;
 }
-.auth-container button {
-  padding: 0.7rem;
-  background: #4f8cff;
-  color: #fff;
+
+.authCard h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.3rem);
+  font-weight: 700;
+}
+
+.authCard p {
+  margin: 0;
+  color: rgba(226, 232, 240, 0.7);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.authBanner {
+  border-radius: 14px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  margin-bottom: 1.4rem;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.authBanner--error {
+  border-color: rgba(248, 113, 113, 0.55);
+  background: rgba(239, 68, 68, 0.1);
+  color: #fecaca;
+}
+
+.authBanner--success {
+  border-color: rgba(110, 231, 183, 0.55);
+  background: rgba(16, 185, 129, 0.12);
+  color: #bbf7d0;
+}
+
+.authForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.authField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: rgba(226, 232, 240, 0.85);
+}
+
+.authField input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  background: rgba(15, 23, 42, 0.7);
+  color: #f8fafc;
+  font-size: 0.95rem;
+  transition: border 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.authField input::placeholder {
+  color: rgba(148, 163, 184, 0.7);
+}
+
+.authField input:focus {
+  outline: none;
+  border-color: rgba(134, 255, 218, 0.45);
+  background: rgba(16, 24, 42, 0.92);
+  box-shadow: 0 18px 40px rgba(7, 12, 20, 0.5);
+}
+
+.authSubmit {
+  margin-top: 0.5rem;
+  padding: 0.95rem 1.25rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 16px;
   font-size: 1rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #86ffda, #4fe4fb);
+  color: #0f172a;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
-.auth-container button:hover {
-  background: #2563eb;
+
+.authSubmit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 45px rgba(79, 228, 251, 0.35);
 }
-.auth-container .error {
-  color: #e53e3e;
-  margin-top: 0.5rem;
+
+.authSubmit:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
-.auth-container .success {
-  color: #38a169;
-  margin-top: 0.5rem;
+
+.authFooter {
+  margin-top: 1.75rem;
+  font-size: 0.9rem;
+  color: rgba(226, 232, 240, 0.7);
+  text-align: center;
+}
+
+.authFooter a {
+  color: #86ffda;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.authFooter a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 576px) {
+  .authLayout {
+    padding: 3rem 1.25rem;
+    align-items: flex-start;
+  }
+
+  .authCard {
+    padding: 2rem 1.5rem;
+  }
+
+  .authSubmit {
+    width: 100%;
+  }
+}
+
+@media (max-height: 720px) {
+  .authLayout {
+    align-items: flex-start;
+    padding-top: 3rem;
+  }
+
+  .authCard {
+    margin-top: 1.5rem;
+  }
 }

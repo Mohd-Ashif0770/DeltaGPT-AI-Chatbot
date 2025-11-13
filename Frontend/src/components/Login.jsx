@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import serverUrl from "../environment";
 import { toast } from "react-toastify";
+import "./Auth.css";
 
 const Login = ({ onLogin }) => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -9,6 +10,18 @@ const Login = ({ onLogin }) => {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (success) {
+      toast.success(success);
+    }
+  }, [success]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -49,44 +62,52 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div className="container py-5 d-flex justify-content-center bg-dark min-vh-100 align-items-center min-vw-100">
-      <div className="col-md-5 p-4 shadow rounded bg-light">
-        <h3 className="text-center mb-4 text-primary">Login to Your Account</h3>
+    <div className="authLayout">
+      <div className="authCard">
+        <div className="authCard__header">
+          <div className="authBadge">Welcome back</div>
+          <h1>Sign in to DeltaGPT</h1>
+          <p>Access your saved chats and continue the conversation anywhere.</p>
+        </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="d-flex flex-column justify-content-center align-items-center"
-        >
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            className="form-control mb-3"
-            value={form.email}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            className="form-control mb-3"
-            value={form.password}
-            onChange={handleChange}
-            required
-          />
+        {error && <div className="authBanner authBanner--error">{error}</div>}
+        {success && <div className="authBanner authBanner--success">{success}</div>}
 
-          <button
-            type="submit"
-            className="btn btn-primary w-100"
-            disabled={loading}
-          >
-            {loading ? "Logging in..." : "Login"}
+        <form onSubmit={handleSubmit} className="authForm">
+          <label className="authField">
+            <span>Email</span>
+            <input
+              type="email"
+              name="email"
+              placeholder="you@email.com"
+              value={form.email}
+              onChange={handleChange}
+              required
+              autoComplete="email"
+            />
+          </label>
+
+          <label className="authField">
+            <span>Password</span>
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              value={form.password}
+              onChange={handleChange}
+              required
+              autoComplete="current-password"
+            />
+          </label>
+
+          <button type="submit" className="authSubmit" disabled={loading}>
+            {loading ? "Signing in..." : "Sign in"}
           </button>
         </form>
 
-        {error && toast.error(error)}
-        {success && toast.success("Login successful!")}
+        <div className="authFooter">
+          New to DeltaGPT? <a href="/signup">Create an account</a>
+        </div>
       </div>
     </div>
   );

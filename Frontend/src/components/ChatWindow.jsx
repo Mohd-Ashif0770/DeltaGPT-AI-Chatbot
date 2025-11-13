@@ -1,11 +1,10 @@
-import './ChatWindow.css';
+import "./ChatWindow.css";
 import Chat from "./Chat";
-import { MyContext } from '../MyContext';
-import { useContext, useState, useEffect } from 'react';
-import { ScaleLoader } from 'react-spinners';
-import serverUrl from '../environment.js';
+import { MyContext } from "../MyContext";
+import { useContext, useState, useEffect } from "react";
+import { ScaleLoader } from "react-spinners";
+import serverUrl from "../environment.js";
 import { toast } from "react-toastify";
-
 
 function ChatWindow() {
   const {
@@ -16,7 +15,7 @@ function ChatWindow() {
     currThreadId,
     prevChats,
     setPrevChats,
-    setNewChat
+    setNewChat,
   } = useContext(MyContext);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -30,7 +29,7 @@ function ChatWindow() {
   }, []);
 
   // 🔹 Handle chat send
-   const getReply = async () => {
+  const getReply = async () => {
     // ✅ Check login before sending message
     const token = localStorage.getItem("token");
     if (!token) {
@@ -86,12 +85,23 @@ function ChatWindow() {
 
   return (
     <div className="chatWindow">
+      <div className="chatWindow__accent" aria-hidden="true"></div>
       <div className="navbar d-flex justify-content-between align-items-center px-3">
-        <span className="fw-bold appName">
-          DeltaGPT <i className="fa-solid fa-chevron-down"></i>
-        </span>
+        <div className="brand">
+          <span className="brandBadge">
+            <i className="fa-solid fa-bolt"></i>
+          </span>
+          <div className="brandCopy">
+            <span className="fw-bold appName">
+              DeltaGPT <i className="fa-solid fa-chevron-down"></i>
+            </span>
+            <span className="appTagline">
+              Conversations that accelerate ideas
+            </span>
+          </div>
+        </div>
 
-        <div className="userIconDiv">
+        <div className="navActions">
           {isLoggedIn ? (
             // 🔸 Logged-in view → Profile icon
             <span className="userIcon" onClick={() => setIsOpen(!isOpen)}>
@@ -99,12 +109,12 @@ function ChatWindow() {
             </span>
           ) : (
             // 🔸 Not logged in → Show Login / Register buttons
-            <div className="d-flex gap-2 " id='loginRegisterBtns'>
-              <a href="/login" className="btn btn-outline-light btn-sm">
+            <div className="authButtons" id="loginRegisterBtns">
+              <a href="/login" className="ghostButton">
                 Login
               </a>
-              <a href="/signup" className="btn btn-light btn-sm">
-                Register
+              <a href="/signup" className="primaryButton">
+                Get Started
               </a>
             </div>
           )}
@@ -128,17 +138,22 @@ function ChatWindow() {
 
       {/* 🔹 Chat Section */}
       <Chat />
-      <ScaleLoader color="#fff" loading={loader} />
+      {loader && (
+        <div className="chatLoader">
+          <ScaleLoader color="#86ffda" loading={loader} />
+        </div>
+      )}
 
       {/* 🔹 Input Box */}
       <div className="chatInput">
         <div className="inputBox">
           <input
+            id="chatPromptInput"
             type="text"
             placeholder="Ask anything..."
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' ? getReply() : null}
+            onKeyDown={(e) => (e.key === "Enter" ? getReply() : null)}
           />
           <div id="submit" onClick={getReply}>
             <i className="fa-solid fa-paper-plane"></i>
@@ -146,7 +161,8 @@ function ChatWindow() {
         </div>
         <div className="info">
           <p className="mt-1 smallDescription">
-            DeltaGPT can make mistakes. Check important info. See Cookie Preferences.
+            DeltaGPT can make mistakes. Check important info. See Cookie
+            Preferences.
           </p>
         </div>
       </div>

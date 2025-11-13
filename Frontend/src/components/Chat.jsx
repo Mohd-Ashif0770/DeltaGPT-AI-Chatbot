@@ -1,73 +1,130 @@
-import { useContext, useEffect, useState} from "react"
-import { MyContext } from "../MyContext"
-import './Chat.css'
-import ReactMarkdown from 'react-markdown';
-import RehypeHightlight from 'rehype-highlight';
-import 'highlight.js/styles/atom-one-dark.css';
-// import 'highlight.js/styles/github-dark.css';
+import { useContext, useEffect, useMemo, useState } from "react";
+import { MyContext } from "../MyContext";
+import "./Chat.css";
+import ReactMarkdown from "react-markdown";
+import RehypeHightlight from "rehype-highlight";
+import "highlight.js/styles/atom-one-dark.css";
 
-function  Chat() {
-  const {newChat, prevChats, reply} = useContext(MyContext)
-  const [latestReply, setLatestReply] = useState(null)
+function Chat() {
+  const { newChat, prevChats, reply, setPrompt } = useContext(MyContext);
+  const [latestReply, setLatestReply] = useState(null);
 
-  useEffect(()=>{
-    if(reply === null) {
+  const quickPrompts = useMemo(
+    () => [
+      {
+        label: "Brainstorm a feature",
+        prompt:
+          "Outline three standout features for a productivity app that helps distributed teams stay aligned.",
+      },
+      {
+        label: "Summarize an article",
+        prompt:
+          "Summarize the latest trends in generative AI for a weekly team newsletter in under 120 words.",
+      },
+      {
+        label: "Draft an email",
+        prompt:
+          "Write a warm product update email announcing DeltaGPT's new collaboration features to existing users.",
+      },
+    ],
+    []
+  );
+
+  const handleQuickPrompt = (value) => {
+    setPrompt(value);
+    if (typeof window !== "undefined") {
+      window.requestAnimationFrame(() => {
+        const input = document.getElementById("chatPromptInput");
+        if (input) {
+          input.focus();
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (reply === null) {
       setLatestReply(null);
       return;
     }
-    //latest reply seprate => create tying effect
-    if(!prevChats?.length) return;
+    if (!prevChats?.length) return;
 
-    const content = reply.split(" "); //individual words
-
-    let idx =0;    
-    const interval = setInterval(()=>{
-      setLatestReply(content.slice(0, idx+1).join(" "))
+    const content = reply.split(" ");
+    let idx = 0;
+    const interval = setInterval(() => {
+      setLatestReply(content.slice(0, idx + 1).join(" "));
       idx++;
-      if(idx >= content.length){
-        return clearInterval(interval)
+      if (idx >= content.length) {
+        return clearInterval(interval);
       }
-    },80)
-    return ()=> clearInterval(interval)
+    }, 80);
 
-  },[prevChats, reply])
-  
+    return () => clearInterval(interval);
+  }, [prevChats, reply]);
+
   return (
     <>
-      {newChat && <h2 id="startnewchat">Start a New Chat</h2>}
+      {newChat && (
+        <section className="welcome">
+          <h1>Welcome back to DeltaGPT</h1>
+          <p>Ask anything or start with one of these quick prompts.</p>
+          <div className="promptChips">
+            {quickPrompts.map((item, index) => (
+              <button
+                key={index}
+                type="button"
+                className="promptChip"
+                onClick={() => handleQuickPrompt(item.prompt)}
+              >
+                <span>{item.label}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
       <div className="chats">
-        {
-           prevChats?.slice(0, -1).map((chat,idx)=>{
-            return(
-             <div className={chat.role === "user"? "userDiv" : "gptDiv"} key={idx} >
-               {
-                chat.role === 'user'?
-                <p className="userMessage">{chat.content}</p>:
-                <ReactMarkdown  rehypePlugins={[RehypeHightlight]}>{chat.content}</ReactMarkdown>
-               }
+        {prevChats
+          ?.slice(0, -1)
+          .map((chat, idx) => (
+            <div
+              className={chat.role === "user" ? "userDiv" : "gptDiv"}
+              key={idx}
+            >
+              {chat.role === "user" ? (
+                <p className="userMessage">{chat.content}</p>
+              ) : (
+                <div className="gptMessage">
+                  <ReactMarkdown rehypePlugins={[RehypeHightlight]}>
+                    {chat.content}
+                  </ReactMarkdown>
+                </div>
+              )}
+            </div>
+          ))}
 
-             </div>
-            );
-           })
-        }
-
-        {/* Printing tying effect */}
-        {
-          prevChats?.length > 0 && latestReply !==null &&
+        {prevChats?.length > 0 && latestReply !== null && (
           <div className="gptDiv">
-            <ReactMarkdown  rehypePlugins={[RehypeHightlight]}>{latestReply}</ReactMarkdown>
+            <div className="gptMessage">
+              <ReactMarkdown rehypePlugins={[RehypeHightlight]}>
+                {latestReply}
+              </ReactMarkdown>
+            </div>
           </div>
-        }
+        )}
 
-        {
-          prevChats?.length > 0 && latestReply ===null &&
+        {prevChats?.length > 0 && latestReply === null && (
           <div className="gptDiv">
-            <ReactMarkdown  rehypePlugins={[RehypeHightlight]}>{prevChats[prevChats.length-1].content}</ReactMarkdown>
+            <div className="gptMessage">
+              <ReactMarkdown rehypePlugins={[RehypeHightlight]}>
+                {prevChats[prevChats.length - 1].content}
+              </ReactMarkdown>
+            </div>
           </div>
-        }
+        )}
       </div>
     </>
-  )
+  );
 }
 
-export default Chat
+export default Chat;

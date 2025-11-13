@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import serverUrl from "../environment";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import "./Auth.css";
 
 const Signup = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -10,6 +11,18 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (success) {
+      toast.success(success);
+    }
+  }, [success]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -46,48 +59,65 @@ const Signup = () => {
   };
 
   return (
-    <div className="container py-5 d-flex justify-content-center bg-dark min-vh-100 align-items-center min-vw-100">
-      <div className="col-md-5 p-4 shadow-lg rounded bg-light ">
-        <h3 className="text-center mb-4 text-primary">Create Your Account</h3>
-        <form onSubmit={handleSubmit} className="d-flex flex-column justify-content-center align-items-center">
-          <input
-            type="text"
-            name="name"
-            placeholder="Name"
-            className="form-control mb-3 "
-            value={form.name}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            className="form-control mb-3"
-            value={form.email}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            className="form-control mb-3"
-            value={form.password}
-            onChange={handleChange}
-            required
-          />
-          <button
-            type="submit"
-            className="btn btn-primary w-100"
-            disabled={loading}
-          >
-            {loading ? "Registering..." : "Register"}
+    <div className="authLayout">
+      <div className="authCard">
+        <div className="authCard__header">
+          <div className="authBadge">Sign up</div>
+          <h1>Create your DeltaGPT account</h1>
+          <p>Save conversations, pick up where you left off, and explore more.</p>
+        </div>
+
+        {error && <div className="authBanner authBanner--error">{error}</div>}
+        {success && <div className="authBanner authBanner--success">{success}</div>}
+
+        <form onSubmit={handleSubmit} className="authForm">
+          <label className="authField">
+            <span>Name</span>
+            <input
+              type="text"
+              name="name"
+              placeholder="Jane Doe"
+              value={form.name}
+              onChange={handleChange}
+              required
+              autoComplete="name"
+            />
+          </label>
+
+          <label className="authField">
+            <span>Email</span>
+            <input
+              type="email"
+              name="email"
+              placeholder="you@email.com"
+              value={form.email}
+              onChange={handleChange}
+              required
+              autoComplete="email"
+            />
+          </label>
+
+          <label className="authField">
+            <span>Password</span>
+            <input
+              type="password"
+              name="password"
+              placeholder="Create a strong password"
+              value={form.password}
+              onChange={handleChange}
+              required
+              autoComplete="new-password"
+            />
+          </label>
+
+          <button type="submit" className="authSubmit" disabled={loading}>
+            {loading ? "Creating account..." : "Create account"}
           </button>
         </form>
 
-        {error && toast.error(error)}
-        {success && toast.success("Registration successful! Please login.")}
+        <div className="authFooter">
+          Already have an account? <a href="/login">Log in</a>
+        </div>
       </div>
     </div>
   );
