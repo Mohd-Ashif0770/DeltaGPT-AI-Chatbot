@@ -30,6 +30,25 @@ body {
   display: flex;
   min-height: 100vh;
   background: transparent;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Ensure sidebar and chat window work together */
+.app > :first-child {
+  flex-shrink: 0;
+}
+
+.app > :last-child {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 991.98px) {
+  /* On mobile, sidebar is fixed overlay, chat takes full width */
+  .app > :last-child {
+    width: 100%;
+  }
 }
 
 @media (max-width: 768px) {

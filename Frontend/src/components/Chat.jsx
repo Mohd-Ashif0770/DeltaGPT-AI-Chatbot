@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MyContext } from "../MyContext";
 import "./Chat.css";
 import ReactMarkdown from "react-markdown";
@@ -6,41 +6,8 @@ import RehypeHightlight from "rehype-highlight";
 import "highlight.js/styles/atom-one-dark.css";
 
 function Chat() {
-  const { newChat, prevChats, reply, setPrompt } = useContext(MyContext);
+  const { newChat, prevChats, reply } = useContext(MyContext);
   const [latestReply, setLatestReply] = useState(null);
-
-  const quickPrompts = useMemo(
-    () => [
-      {
-        label: "Brainstorm a feature",
-        prompt:
-          "Outline three standout features for a productivity app that helps distributed teams stay aligned.",
-      },
-      {
-        label: "Summarize an article",
-        prompt:
-          "Summarize the latest trends in generative AI for a weekly team newsletter in under 120 words.",
-      },
-      {
-        label: "Draft an email",
-        prompt:
-          "Write a warm product update email announcing DeltaGPT's new collaboration features to existing users.",
-      },
-    ],
-    []
-  );
-
-  const handleQuickPrompt = (value) => {
-    setPrompt(value);
-    if (typeof window !== "undefined") {
-      window.requestAnimationFrame(() => {
-        const input = document.getElementById("chatPromptInput");
-        if (input) {
-          input.focus();
-        }
-      });
-    }
-  };
 
   useEffect(() => {
     if (reply === null) {
@@ -66,42 +33,27 @@ function Chat() {
     <>
       {newChat && (
         <section className="welcome">
-          <h1>Welcome back to DeltaGPT</h1>
-          <p>Ask anything or start with one of these quick prompts.</p>
-          <div className="promptChips">
-            {quickPrompts.map((item, index) => (
-              <button
-                key={index}
-                type="button"
-                className="promptChip"
-                onClick={() => handleQuickPrompt(item.prompt)}
-              >
-                <span>{item.label}</span>
-              </button>
-            ))}
-          </div>
+          <h1>Welcome to DeltaGPT</h1>
         </section>
       )}
 
       <div className="chats">
-        {prevChats
-          ?.slice(0, -1)
-          .map((chat, idx) => (
-            <div
-              className={chat.role === "user" ? "userDiv" : "gptDiv"}
-              key={idx}
-            >
-              {chat.role === "user" ? (
-                <p className="userMessage">{chat.content}</p>
-              ) : (
-                <div className="gptMessage">
-                  <ReactMarkdown rehypePlugins={[RehypeHightlight]}>
-                    {chat.content}
-                  </ReactMarkdown>
-                </div>
-              )}
-            </div>
-          ))}
+        {prevChats?.slice(0, -1).map((chat, idx) => (
+          <div
+            className={chat.role === "user" ? "userDiv" : "gptDiv"}
+            key={idx}
+          >
+            {chat.role === "user" ? (
+              <p className="userMessage">{chat.content}</p>
+            ) : (
+              <div className="gptMessage">
+                <ReactMarkdown rehypePlugins={[RehypeHightlight]}>
+                  {chat.content}
+                </ReactMarkdown>
+              </div>
+            )}
+          </div>
+        ))}
 
         {prevChats?.length > 0 && latestReply !== null && (
           <div className="gptDiv">

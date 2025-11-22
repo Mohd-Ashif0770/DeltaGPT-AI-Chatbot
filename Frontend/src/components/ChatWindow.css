@@ -257,7 +257,7 @@ input:focus {
 
 @media (max-width: 992px) {
     .navbar {
-        padding: 1.25rem 1.75rem;
+        padding: 1.25rem 1.75rem 1.25rem 4.5rem;
     }
 
     .chatInput {
@@ -271,16 +271,43 @@ input:focus {
 
 @media (max-width: 768px) {
   .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.2rem;
-    padding: 1.3rem 1.5rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.2rem 1.25rem 1.2rem 4.5rem;
     background: linear-gradient(180deg, rgba(16, 20, 29, 0.95), rgba(16, 20, 29, 0));
+    position: relative;
+  }
+
+  .brand {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .brandCopy {
+    min-width: 0;
+  }
+
+  .appName {
+    font-size: 1.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .navActions {
-    width: 100%;
-    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .authButtons {
+    gap: 0.6rem;
+  }
+
+  .ghostButton,
+  .primaryButton {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
   }
 
   .chatInput {
@@ -292,16 +319,70 @@ input:focus {
     max-width: 100%;
   }
 
+  input {
+    padding: 18px 56px 18px 20px;
+    font-size: 0.95rem;
+  }
+
+  #submit {
+    height: 38px;
+    width: 38px;
+    right: 10px;
+    font-size: 16px;
+  }
+
   .dropDown {
-    right: 1.4rem;
-    top: 6rem;
+    right: 1.25rem;
+    top: 4.5rem;
+    width: 160px;
   }
 
   .info {
     font-size: 0.7rem;
+    padding: 0 0.5rem;
   }
 
   .appTagline {
     display: none;
+  }
+
+  .userIcon {
+    height: 36px;
+    width: 36px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 1rem 1rem 1rem 4rem;
+    gap: 0.75rem;
+  }
+
+  .appName {
+    font-size: 1rem;
+  }
+
+  .ghostButton {
+    display: none;
+  }
+
+  .primaryButton {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.8rem;
+  }
+
+  .chatInput {
+    padding: 1rem 1rem 5rem;
+  }
+
+  input {
+    padding: 16px 52px 16px 18px;
+    font-size: 0.9rem;
+  }
+
+  .dropDown {
+    right: 1rem;
+    width: 150px;
   }
 }

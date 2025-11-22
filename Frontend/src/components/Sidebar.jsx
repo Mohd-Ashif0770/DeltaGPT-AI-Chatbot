@@ -17,7 +17,25 @@ function Sidebar() {
   } = useContext(MyContext);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
   const sidebarRef = useRef(null);
+  const overlayRef = useRef(null);
+
+  // ✅ Detect mobile/desktop viewport
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth < 992;
+      setIsMobile(mobile);
+      // On desktop, always show sidebar; on mobile, close it
+      if (!mobile) {
+        setIsSidebarOpen(false);
+      }
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // ✅ Fetch all threads
   const getAllThreads = async () => {
@@ -38,28 +56,67 @@ function Sidebar() {
     getAllThreads();
   }, [currThreadId]);
 
-  // ✅ Close sidebar when clicking outside
+  // ✅ Close sidebar function
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
+  // ✅ Close sidebar when clicking outside or on overlay
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (
-        sidebarRef.current &&
-        !sidebarRef.current.contains(e.target) &&
-        e.target.closest(".hamburger-menu") === null
-      ) {
-        setIsSidebarOpen(false);
+      if (isMobile && isSidebarOpen) {
+        if (
+          sidebarRef.current &&
+          !sidebarRef.current.contains(e.target) &&
+          e.target.closest(".hamburger-menu") === null
+        ) {
+          closeSidebar();
+        }
+        // Close when clicking on overlay
+        if (overlayRef.current && e.target === overlayRef.current) {
+          closeSidebar();
+        }
       }
     };
 
-    if (isSidebarOpen) {
+    if (isMobile && isSidebarOpen) {
       document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isSidebarOpen]);
+  }, [isMobile, isSidebarOpen]);
+
+  // ✅ ESC key handler to close sidebar
+  useEffect(() => {
+    const handleEscKey = (e) => {
+      if (e.key === "Escape" && isMobile && isSidebarOpen) {
+        closeSidebar();
+      }
+    };
+
+    if (isMobile && isSidebarOpen) {
+      document.addEventListener("keydown", handleEscKey);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscKey);
+    };
+  }, [isMobile, isSidebarOpen]);
+
+  // ✅ Lock body scroll when sidebar is open on mobile
+  useEffect(() => {
+    if (isMobile && isSidebarOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobile, isSidebarOpen]);
 
   const createNewChat = () => {
     setNewChat(true);
@@ -67,7 +124,9 @@ function Sidebar() {
     setReply(null);
     setCurrThreadId(uuidv1());
     setPrevChats([]);
-    setIsSidebarOpen(false);
+    if (isMobile) {
+      closeSidebar();
+    }
   };
 
   const changeThread = async (newThreadId) => {
@@ -78,7 +137,9 @@ function Sidebar() {
       setPrevChats(data);
       setNewChat(false);
       setReply(null);
-      setIsSidebarOpen(false);
+      if (isMobile) {
+        closeSidebar();
+      }
     } catch (err) {
       console.log(err);
     }
@@ -102,8 +163,18 @@ function Sidebar() {
 
   return (
     <>
-      {/* ✅ Hamburger icon - visible only when sidebar closed */}
-      {!isSidebarOpen && (
+      {/* ✅ Overlay - visible on mobile when sidebar is open */}
+      {isMobile && isSidebarOpen && (
+        <div
+          ref={overlayRef}
+          className="sidebar-overlay"
+          onClick={closeSidebar}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* ✅ Hamburger icon - visible on mobile when sidebar is closed */}
+      {isMobile && !isSidebarOpen && (
         <div className="hamburger-menu" onClick={() => setIsSidebarOpen(true)}>
           <i className="fa-solid fa-bars"></i>
         </div>
@@ -112,9 +183,20 @@ function Sidebar() {
       {/* ✅ Sidebar */}
       <section
         ref={sidebarRef}
-        className={`sidebar ${isSidebarOpen ? "open" : ""}`}
+        className={`sidebar ${isMobile ? (isSidebarOpen ? "open" : "") : "desktop-open"}`}
       >
-        <button onClick={createNewChat}>
+        {/* ✅ Close button (X) - visible on mobile */}
+        {isMobile && isSidebarOpen && (
+          <button
+            className="sidebar-close-btn"
+            onClick={closeSidebar}
+            aria-label="Close sidebar"
+          >
+            <i className="fa-solid fa-xmark"></i>
+          </button>
+        )}
+
+        <button onClick={createNewChat} className="new-chat-btn">
           <img src="/gpt-logo.png" alt="GPT logo" className="logo" />
           <span>
             <i className="fa-solid fa-pen-to-square"></i>

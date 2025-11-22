@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import serverUrl from "../environment";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./Auth.css";
 
@@ -61,14 +61,22 @@ const Signup = () => {
   return (
     <div className="authLayout">
       <div className="authCard">
-        <div className="authCard__header">
+        <div className="authCard__topBar">
+          <Link to="/" className="authBackLink">
+            <i className="fa-solid fa-arrow-left"></i>
+            <span>Back to Home</span>
+          </Link>
           <div className="authBadge">Sign up</div>
-          <h1>Create your DeltaGPT account</h1>
-          <p>Save conversations, pick up where you left off, and explore more.</p>
+        </div>
+
+        <div className="authCard__header">
+          <h4>Create your DeltaGPT account</h4>
         </div>
 
         {error && <div className="authBanner authBanner--error">{error}</div>}
-        {success && <div className="authBanner authBanner--success">{success}</div>}
+        {success && (
+          <div className="authBanner authBanner--success">{success}</div>
+        )}
 
         <form onSubmit={handleSubmit} className="authForm">
           <label className="authField">

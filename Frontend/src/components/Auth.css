@@ -2,14 +2,14 @@
   min-height: 100vh;
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: clamp(3rem, 8vh, 5rem) 1.5rem;
-  overflow-y: auto;
+  padding: clamp(2rem, 6vh, 4rem) 1.5rem clamp(2rem, 4vh, 3rem);
   box-sizing: border-box;
   background: radial-gradient(circle at 20% 20%, rgba(134, 255, 218, 0.18), transparent 55%),
     radial-gradient(circle at 80% 0%, rgba(88, 100, 255, 0.18), transparent 45%),
     #0b111b;
+  overflow-x: hidden;
 }
 
 .authCard {
@@ -18,21 +18,35 @@
   background: rgba(14, 19, 32, 0.92);
   border: 1px solid rgba(134, 255, 218, 0.18);
   border-radius: 24px;
-  padding: 2.4rem 2rem;
+  padding: 2.4rem 2rem 2rem;
   color: #f8fafc;
   box-shadow: 0 35px 80px rgba(6, 10, 18, 0.55);
   backdrop-filter: blur(22px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top bar with Back link and Badge */
+.authCard__topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-shrink: 0;
+  gap: 1rem;
+  width: 100%;
 }
 
 .authCard__header {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  flex-shrink: 0;
 }
 
 .authBadge {
-  align-self: flex-start;
   font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -41,13 +55,19 @@
   background: rgba(134, 255, 218, 0.18);
   border: 1px solid rgba(134, 255, 218, 0.35);
   color: #86ffda;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
-.authCard h1 {
+.authCard h1,
+.authCard h3,
+.authCard h4 {
   margin: 0;
-  font-size: clamp(1.8rem, 4vw, 2.3rem);
   font-weight: 700;
+  color: #f8fafc;
 }
+
+
 
 .authCard p {
   margin: 0;
@@ -81,6 +101,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  flex-shrink: 0;
 }
 
 .authField {
@@ -137,44 +158,263 @@
 }
 
 .authFooter {
-  margin-top: 1.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
   font-size: 0.9rem;
   color: rgba(226, 232, 240, 0.7);
   text-align: center;
+  flex-shrink: 0;
+  border-top: 1px solid rgba(134, 255, 218, 0.1);
 }
 
 .authFooter a {
   color: #86ffda;
   font-weight: 600;
   text-decoration: none;
+  transition: all 0.2s ease;
 }
 
 .authFooter a:hover {
   text-decoration: underline;
+  color: #4fe4fb;
+  text-shadow: 0 0 8px rgba(79, 228, 251, 0.4);
 }
 
-@media (max-width: 576px) {
+/* Back to Home Link */
+.authBackLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: rgba(226, 232, 240, 0.7);
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid transparent;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.authBackLink:hover {
+  color: #86ffda;
+  background: rgba(134, 255, 218, 0.1);
+  border-color: rgba(134, 255, 218, 0.2);
+  transform: translateX(-2px);
+  box-shadow: 0 4px 12px rgba(134, 255, 218, 0.2);
+}
+
+.authBackLink i {
+  font-size: 0.9rem;
+  transition: transform 0.2s ease;
+}
+
+.authBackLink:hover i {
+  transform: translateX(-2px);
+}
+
+.authBackLink span {
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .authBackLink span {
+    display: none;
+  }
+  
+  .authBackLink {
+    padding: 0.5rem;
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
   .authLayout {
-    padding: 3rem 1.25rem;
+    padding: 1.5rem 1.25rem;
     align-items: flex-start;
   }
 
   .authCard {
-    padding: 2rem 1.5rem;
+    padding: 2rem 1.5rem 1.75rem;
+    border-radius: 20px;
+  }
+  
+  .authCard__topBar {
+    margin-bottom: 1.25rem;
+    gap: 0.75rem;
+  }
+
+  .authCard__header {
+    margin-bottom: 1.25rem;
+    gap: 0.7rem;
+  }
+
+  .authCard h1,
+  .authCard h3,
+  .authCard h4 {
+    font-size: clamp(1.6rem, 5vw, 2rem);
+  }
+
+  .authCard p {
+    font-size: 0.9rem;
+  }
+  
+  .authBackLink {
+    font-size: 0.8rem;
+    padding: 0.45rem 0.65rem;
+  }
+
+  .authForm {
+    gap: 1.1rem;
+  }
+
+  .authField {
+    gap: 0.45rem;
+  }
+
+  .authField input {
+    padding: 0.8rem 0.95rem;
+    font-size: 0.9rem;
   }
 
   .authSubmit {
+    padding: 0.9rem 1.2rem;
+    font-size: 0.95rem;
     width: 100%;
+  }
+
+  .authFooter {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .authLayout {
+    padding: 1.25rem 1rem;
+  }
+
+  .authCard {
+    padding: 1.75rem 1.25rem 1.5rem;
+    border-radius: 18px;
+  }
+  
+  .authCard__topBar {
+    margin-bottom: 1rem;
+    gap: 0.5rem;
+  }
+  
+  .authBackLink {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .authBadge {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.65rem;
+  }
+
+  .authCard__header {
+    margin-bottom: 1rem;
+  }
+
+  .authCard h1 {
+    font-size: 1.5rem;
+  }
+
+  .authCard p {
+    font-size: 0.85rem;
+  }
+
+  .authBanner {
+    font-size: 0.85rem;
+    padding: 0.65rem 0.9rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .authForm {
+    gap: 1rem;
+  }
+
+  .authField input {
+    padding: 0.75rem 0.9rem;
+    font-size: 0.9rem;
+  }
+
+  .authSubmit {
+    padding: 0.85rem 1.1rem;
+    font-size: 0.9rem;
+  }
+
+  .authFooter {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    font-size: 0.8rem;
   }
 }
 
 @media (max-height: 720px) {
   .authLayout {
-    align-items: flex-start;
-    padding-top: 3rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
   }
 
   .authCard {
-    margin-top: 1.5rem;
+    padding: 1.75rem 2rem 1.5rem;
+  }
+
+  .authCard__header {
+    margin-bottom: 1.25rem;
+  }
+
+  .authForm {
+    gap: 1rem;
+  }
+
+  .authFooter {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+  }
+}
+
+@media (max-height: 600px) {
+  .authLayout {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .authCard {
+    padding: 1.5rem 1.75rem 1.25rem;
+  }
+
+  .authCard__header {
+    margin-bottom: 1rem;
+    gap: 0.6rem;
+  }
+
+  .authCard h1 {
+    font-size: 1.5rem;
+  }
+
+  .authCard p {
+    font-size: 0.85rem;
+  }
+
+  .authBanner {
+    margin-bottom: 1rem;
+    padding: 0.65rem 0.9rem;
+  }
+
+  .authForm {
+    gap: 0.9rem;
+  }
+
+  .authFooter {
+    margin-top: 1rem;
+    padding-top: 1rem;
   }
 }

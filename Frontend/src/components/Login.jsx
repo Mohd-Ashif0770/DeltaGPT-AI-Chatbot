@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import serverUrl from "../environment";
 import { toast } from "react-toastify";
 import "./Auth.css";
@@ -64,14 +64,22 @@ const Login = ({ onLogin }) => {
   return (
     <div className="authLayout">
       <div className="authCard">
-        <div className="authCard__header">
+        <div className="authCard__topBar">
+          <Link to="/" className="authBackLink">
+            <i className="fa-solid fa-arrow-left"></i>
+            <span>Back to Home</span>
+          </Link>
           <div className="authBadge">Welcome back</div>
-          <h1>Sign in to DeltaGPT</h1>
-          <p>Access your saved chats and continue the conversation anywhere.</p>
+        </div>
+
+        <div className="authCard__header">
+          <h4>Sign in to DeltaGPT</h4>
         </div>
 
         {error && <div className="authBanner authBanner--error">{error}</div>}
-        {success && <div className="authBanner authBanner--success">{success}</div>}
+        {success && (
+          <div className="authBanner authBanner--success">{success}</div>
+        )}
 
         <form onSubmit={handleSubmit} className="authForm">
           <label className="authField">
