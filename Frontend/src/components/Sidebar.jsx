@@ -185,16 +185,7 @@ function Sidebar() {
         ref={sidebarRef}
         className={`sidebar ${isMobile ? (isSidebarOpen ? "open" : "") : "desktop-open"}`}
       >
-        {/* ✅ Close button (X) - visible on mobile */}
-        {isMobile && isSidebarOpen && (
-          <button
-            className="sidebar-close-btn"
-            onClick={closeSidebar}
-            aria-label="Close sidebar"
-          >
-            <i className="fa-solid fa-xmark"></i>
-          </button>
-        )}
+        
 
         <button onClick={createNewChat} className="new-chat-btn">
           <img src="/gpt-logo.png" alt="GPT logo" className="logo" />
