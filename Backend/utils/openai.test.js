@@ -13,6 +13,7 @@ test("returns AI response from API", async () => {
 
   // 👇 When fetch is called, return our fake data
   fetch.mockResolvedValue({
+    ok: true,
     json: () => Promise.resolve(mockData),
   });
 

@@ -2,6 +2,7 @@ import "./Sidebar.css";
 import { MyContext } from "../MyContext";
 import { useContext, useEffect, useState, useRef } from "react";
 import { v1 as uuidv1 } from "uuid";
+import { toast } from "sonner";
 import serverUrl from "../environment";
 
 function Sidebar() {
@@ -151,11 +152,16 @@ function Sidebar() {
         method: "DELETE",
       });
       await response.json();
+    //  console.log(`Delete thread response:`, response.ok);
+     if(response.ok){
       setCurrThreadId(uuidv1());
       setPrevChats([]);
       setNewChat(true);
       setReply(null);
       getAllThreads();
+      toast.success("Chat deleted successfully.");
+     }
+      
     } catch (err) {
       console.log(err);
     }

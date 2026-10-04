@@ -33,7 +33,7 @@ function Chat() {
     <>
       {newChat && (
         <section className="welcome">
-          <h1>Welcome to DeltaGPT</h1>
+          <h2>Welcome to DeltaGPT</h2>
         </section>
       )}
 

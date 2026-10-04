@@ -4,7 +4,7 @@ import { MyContext } from "../MyContext";
 import { useContext, useState, useEffect } from "react";
 import { ScaleLoader } from "react-spinners";
 import serverUrl from "../environment.js";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 function ChatWindow() {
   const {
@@ -80,7 +80,7 @@ function ChatWindow() {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
     setIsOpen(false);
-    window.location.reload(); // Refresh UI
+    toast.success("User logged out successfully.");
   };
 
   return (

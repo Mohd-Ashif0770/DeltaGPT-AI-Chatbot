@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import serverUrl from "../environment";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import "./Auth.css";
 
 const Login = ({ onLogin }) => {
@@ -44,7 +44,7 @@ const Login = ({ onLogin }) => {
 
       if (res.ok) {
         localStorage.setItem("token", data.token);
-        setSuccess("✅ Login successful!");
+        setSuccess("Login successful!");
         setForm({ email: "", password: "" });
 
         if (onLogin) onLogin();

@@ -7,7 +7,7 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import { MyContext } from "./MyContext";
 import { v1 as uuidv1 } from "uuid";
-import { ToastContainer } from "react-toastify";
+import { Toaster } from "sonner"
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -57,15 +57,17 @@ function App() {
       </Router>
 
        {/* Your app code */}
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        pauseOnHover
-        // theme="colored"
-      />
+              {/* <ToastContainer
+                position="top-right"
+                width="400px"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                pauseOnHover
+                // theme="colored"
+              /> */}
+              <Toaster  position="top-right" richColors/>
     </MyContext.Provider>
   );
 }

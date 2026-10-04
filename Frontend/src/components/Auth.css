@@ -13,7 +13,7 @@
 }
 
 .authCard {
-  width: min(440px, 100%);
+  width: min(520px, 100%);
   margin: auto;
   background: rgba(14, 19, 32, 0.92);
   border: 1px solid rgba(134, 255, 218, 0.18);
