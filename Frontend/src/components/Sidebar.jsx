@@ -147,23 +147,43 @@ function Sidebar() {
   };
 
   const deleteThread = async (ThreadId) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.warning("Please login to delete chat");
+      return;
+    }
+
     try {
       const response = await fetch(`${serverUrl}/api/thread/${ThreadId}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       });
-      await response.json();
-    //  console.log(`Delete thread response:`, response.ok);
-     if(response.ok){
-      setCurrThreadId(uuidv1());
-      setPrevChats([]);
-      setNewChat(true);
-      setReply(null);
-      getAllThreads();
-      toast.success("Chat deleted successfully.");
-     }
-      
+
+      const data = await response.json();
+
+      if (response.status === 401 || response.status === 403) {
+        toast.warning("Please login to delete chat");
+        return;
+      }
+
+      if (response.ok) {
+        if (currThreadId === ThreadId) {
+          setCurrThreadId(uuidv1());
+          setPrevChats([]);
+          setNewChat(true);
+          setReply(null);
+        }
+        getAllThreads();
+        toast.success("Chat deleted successfully.");
+      } else {
+        toast.error(data.error || data.message || "Failed to delete chat");
+      }
     } catch (err) {
       console.log(err);
+      toast.error("Failed to delete chat");
     }
   };
 

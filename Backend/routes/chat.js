@@ -1,6 +1,7 @@
 import express from "express";
 import Thread from "../models/Thread.js";
 import getOpenAiApiResponse from "../utils/openai.js";
+import { verifyToken } from "../middlewares.js"
 
 const router = express.Router();
 
@@ -48,14 +49,14 @@ router.get("/thread/:threadId", async (req, res) => {
 });
 
 //! Delete thread
-router.delete("/thread/:threadId", async (req, res) => {
+router.delete("/thread/:threadId", verifyToken, async (req, res) => {
   const { threadId } = req.params;
   try {
     const deletedThread = await Thread.findOneAndDelete({ threadId });
     if (!deletedThread) {
-      res.status(404).json({ message: "Thread not found" });
+      return res.status(404).json({ message: "Thread not found" });
     }
-    res.status(200).json({ success: "Thread deleted successfully" });
+    return res.status(200).json({ success: "Thread deleted successfully" });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Failed to delete thread" });
@@ -63,7 +64,7 @@ router.delete("/thread/:threadId", async (req, res) => {
 });
 
 //! Chat route (Important)
-router.post("/chat", async (req, res) => {
+router.post("/chat", verifyToken, async (req, res) => {
   const { threadId, message } = req.body;
   console.log("Content --> ", message);
 
