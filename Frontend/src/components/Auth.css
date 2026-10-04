@@ -97,6 +97,56 @@
   color: #bbf7d0;
 }
 
+/* Sample Credentials Box */
+.sampleCredentials {
+  background: rgba(134, 255, 218, 0.08);
+  border: 1px dashed rgba(134, 255, 218, 0.35);
+  border-radius: 14px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  color: rgba(226, 232, 240, 0.9);
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sampleCredentials:hover {
+  background: rgba(134, 255, 218, 0.14);
+  border-color: rgba(134, 255, 218, 0.6);
+  transform: translateY(-1px);
+}
+
+.sampleCredentialsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.2rem;
+}
+
+.sampleCredentialsTitle {
+  font-weight: 600;
+  color: #86ffda;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.sampleCredentialsAutoFill {
+  font-size: 0.72rem;
+  color: rgba(134, 255, 218, 0.8);
+  background: rgba(134, 255, 218, 0.15);
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+}
+
+.sampleCredentials p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: rgba(226, 232, 240, 0.9);
+}
+
 .authForm {
   display: flex;
   flex-direction: column;

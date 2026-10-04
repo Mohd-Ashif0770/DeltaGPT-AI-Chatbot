@@ -82,6 +82,19 @@ const Login = ({ onLogin }) => {
         )}
 
         <form onSubmit={handleSubmit} className="authForm">
+          <div
+            className="sampleCredentials"
+            onClick={() => setForm({ email: "test@gmail.com", password: "test123" })}
+            title="Click to auto-fill sample credentials"
+          >
+            <div className="sampleCredentialsHeader">
+              <span className="sampleCredentialsTitle">Sample Credentials</span>
+              <span className="sampleCredentialsAutoFill">Click to fill</span>
+            </div>
+            <p><strong>Email:</strong> test@gmail.com</p>
+            <p><strong>Password:</strong> test123</p>
+          </div>
+
           <label className="authField">
             <span>Email</span>
             <input
