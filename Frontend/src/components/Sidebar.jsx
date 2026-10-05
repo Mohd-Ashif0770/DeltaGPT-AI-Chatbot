@@ -12,6 +12,7 @@ function Sidebar() {
     currThreadId,
     setNewChat,
     setPrompt,
+    reply,
     setReply,
     setCurrThreadId,
     setPrevChats,
@@ -57,7 +58,7 @@ function Sidebar() {
 
   useEffect(() => {
     getAllThreads();
-  }, [currThreadId]);
+  }, [currThreadId, reply]);
 
   // ✅ Close sidebar function
   const closeSidebar = () => {
@@ -265,11 +266,13 @@ function Sidebar() {
                 key={idx}
                 onClick={() => changeThread(thread.threadId)}
                 className={currThreadId === thread.threadId ? "active" : ""}
+                title={thread.title}
               >
                 <span>{thread.title}</span>
                 <i
                   className="fa-solid fa-trash"
                   onClick={(e) => handleDeleteClick(e, thread)}
+                  title="Delete chat"
                 ></i>
               </li>
             ))

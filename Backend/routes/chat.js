@@ -75,10 +75,14 @@ router.post("/chat", verifyToken, async (req, res) => {
     let thread = await Thread.findOne({ threadId });
 
     if (!thread) {
-      //create new thread
+      // create new thread with truncated title for clean UI
+      const cleanTitle = message.trim();
+      const truncatedTitle =
+        cleanTitle.length > 35 ? cleanTitle.slice(0, 35).trim() + "..." : cleanTitle;
+
       thread = new Thread({
         threadId,
-        title: message,
+        title: truncatedTitle,
         messages: [{ role: "user", content: message }],
       });
     } else {
