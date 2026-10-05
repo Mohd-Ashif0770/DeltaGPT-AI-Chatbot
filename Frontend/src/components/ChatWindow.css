@@ -163,6 +163,7 @@
   align-items: center;
   padding: 1rem 2.5rem 1rem;
   z-index: 10;
+  
   backdrop-filter: blur(18px);
   background: linear-gradient(
     180deg,
@@ -183,6 +184,7 @@
 input {
   width: 100%;
   border: 1px solid transparent;
+  border-color: rgba(71, 102, 93, 0.45);
   background: rgba(15, 23, 42, 0.78);
   padding: 20px 64px 20px 24px;
   font-size: 1rem;

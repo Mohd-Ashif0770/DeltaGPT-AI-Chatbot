@@ -19,6 +19,7 @@ function Sidebar() {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
+  const [searchQuery, setSearchQuery] = useState("");
   const sidebarRef = useRef(null);
   const overlayRef = useRef(null);
 
@@ -187,6 +188,10 @@ function Sidebar() {
     }
   };
 
+  const filteredThreads = allThreads?.filter((thread) =>
+    thread.title?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <>
       {/* ✅ Overlay - visible on mobile when sidebar is open */}
@@ -211,32 +216,57 @@ function Sidebar() {
         ref={sidebarRef}
         className={`sidebar ${isMobile ? (isSidebarOpen ? "open" : "") : "desktop-open"}`}
       >
-        
+        <div className="sidebar-header">
+          <div className="brand">
+            <img src="/gpt-logo.png" alt="GPT logo" className="logo" />
+          </div>
+          <div className="search-box">
+            <input
+              type="text"
+              placeholder="Search chats..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {searchQuery ? (
+              <i
+                className="fa-solid fa-xmark clear-search-icon"
+                onClick={() => setSearchQuery("")}
+                title="Clear search"
+              ></i>
+            ) : (
+              <i className="fa-solid fa-magnifying-glass search-input-icon"></i>
+            )}
+          </div>
+        </div>
 
         <button onClick={createNewChat} className="new-chat-btn">
-          <img src="/gpt-logo.png" alt="GPT logo" className="logo" />
-          <span>
-            <i className="fa-solid fa-pen-to-square"></i>
+          <span className="new-chat-text">New Chat</span>
+          <span className="plus-icon">
+            <i className="fa-solid fa-plus"></i>
           </span>
         </button>
 
         <ul className="thread">
-          {allThreads?.map((thread, idx) => (
-            <li
-              key={idx}
-              onClick={() => changeThread(thread.threadId)}
-              className={currThreadId === thread.threadId ? "active" : ""}
-            >
-              <span>{thread.title}</span>
-              <i
-                className="fa-solid fa-trash"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  deleteThread(thread.threadId);
-                }}
-              ></i>
-            </li>
-          ))}
+          {filteredThreads && filteredThreads.length > 0 ? (
+            filteredThreads.map((thread, idx) => (
+              <li
+                key={idx}
+                onClick={() => changeThread(thread.threadId)}
+                className={currThreadId === thread.threadId ? "active" : ""}
+              >
+                <span>{thread.title}</span>
+                <i
+                  className="fa-solid fa-trash"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteThread(thread.threadId);
+                  }}
+                ></i>
+              </li>
+            ))
+          ) : searchQuery ? (
+            <li className="no-threads">No chats found</li>
+          ) : null}
         </ul>
 
         <div className="sign">
