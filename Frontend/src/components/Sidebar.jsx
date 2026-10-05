@@ -20,6 +20,7 @@ function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
   const [searchQuery, setSearchQuery] = useState("");
+  const [threadToDelete, setThreadToDelete] = useState(null);
   const sidebarRef = useRef(null);
   const overlayRef = useRef(null);
 
@@ -90,22 +91,23 @@ function Sidebar() {
     };
   }, [isMobile, isSidebarOpen]);
 
-  // ✅ ESC key handler to close sidebar
+  // ✅ ESC key handler to close modal or sidebar
   useEffect(() => {
     const handleEscKey = (e) => {
-      if (e.key === "Escape" && isMobile && isSidebarOpen) {
-        closeSidebar();
+      if (e.key === "Escape") {
+        if (threadToDelete) {
+          setThreadToDelete(null);
+        } else if (isMobile && isSidebarOpen) {
+          closeSidebar();
+        }
       }
     };
 
-    if (isMobile && isSidebarOpen) {
-      document.addEventListener("keydown", handleEscKey);
-    }
-
+    document.addEventListener("keydown", handleEscKey);
     return () => {
       document.removeEventListener("keydown", handleEscKey);
     };
-  }, [isMobile, isSidebarOpen]);
+  }, [isMobile, isSidebarOpen, threadToDelete]);
 
   // ✅ Lock body scroll when sidebar is open on mobile
   useEffect(() => {
@@ -145,6 +147,16 @@ function Sidebar() {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleDeleteClick = (e, thread) => {
+    e.stopPropagation();
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.warning("Please login to delete chat");
+      return;
+    }
+    setThreadToDelete(thread);
   };
 
   const deleteThread = async (ThreadId) => {
@@ -217,9 +229,9 @@ function Sidebar() {
         className={`sidebar ${isMobile ? (isSidebarOpen ? "open" : "") : "desktop-open"}`}
       >
         <div className="sidebar-header">
-          <div className="brand">
+          {/* <div className="brand">
             <img src="/gpt-logo.png" alt="GPT logo" className="logo" />
-          </div>
+          </div>           */}
           <div className="search-box">
             <input
               type="text"
@@ -257,10 +269,7 @@ function Sidebar() {
                 <span>{thread.title}</span>
                 <i
                   className="fa-solid fa-trash"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteThread(thread.threadId);
-                  }}
+                  onClick={(e) => handleDeleteClick(e, thread)}
                 ></i>
               </li>
             ))
@@ -270,9 +279,49 @@ function Sidebar() {
         </ul>
 
         <div className="sign">
-          <p>Developed by Mohd Asif &hearts;</p>
+          <p>Developed by Mohd Ashif &hearts;</p>
         </div>
       </section>
+
+      {/* ✅ Delete Confirmation Modal */}
+      {threadToDelete && (
+        <div
+          className="modal-overlay"
+          onClick={() => setThreadToDelete(null)}
+          aria-modal="true"
+          role="dialog"
+        >
+          <div className="confirm-modal" onClick={(e) => e.stopPropagation()}>
+            <h3>
+              <i className="fa-solid fa-triangle-exclamation"></i> Delete Chat?
+            </h3>
+            <p>
+              Are you sure you want to delete{" "}
+              <strong>"{threadToDelete.title || "this chat"}"</strong>? This
+              action cannot be undone.
+            </p>
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="cancel-btn"
+                onClick={() => setThreadToDelete(null)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="delete-btn"
+                onClick={() => {
+                  deleteThread(threadToDelete.threadId);
+                  setThreadToDelete(null);
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
